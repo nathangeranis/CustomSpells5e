@@ -1,20 +1,23 @@
-<form class="custom-spell-creator-form flexcol">
+<form class="custom-spell-creator-form">
     <header class="window-header flexrow">
         <h1 class="window-title">{{localize "CUSTOM_SPELLS_5E.SpellCreatorTitle"}}</h1>
     </header>
 
-    <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="basic">Basic Info</a>
-        <a class="item" data-tab="components">Components</a>
-        <a class="item" data-tab="range">Range & Targeting</a>
-        <a class="item" data-tab="effects">Effects</a>
-        <a class="item" data-tab="status">Status Effects</a>
-        <a class="item" data-tab="casting">Casting</a>
-        <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="points">Points</a>
-    </nav>
+    <div class="flex-container">
+        <!-- Main Wizard Panel (80%) -->
+        <div class="wizard-main">
+            <!-- Wizard Progress Steps -->
+            <nav class="wizard-steps flexrow">
+                <a class="step" data-step="basic" data-tooltip="Basic Info">1</a>
+                <a class="step" data-step="components" data-tooltip="Components">2</a>
+                <a class="step" data-step="range" data-tooltip="Range & Target">3</a>
+                <a class="step" data-step="effects" data-tooltip="Effects">4</a>
+                <a class="step" data-step="casting" data-tooltip="Casting">5</a>
+                <a class="step" data-step="review" data-tooltip="Review">6</a>
+            </nav>
 
-    <section class="sheet-body">
+            <!-- Wizard Content Sections -->
+            <section class="wizard-content">
         <!-- Basic Information Tab -->
         <div class="tab basic" data-group="primary" data-tab="basic">
             <div class="form-group">
@@ -201,11 +204,66 @@
             <div class="form-group"><strong>Valid Spell:</strong> <span id="isValidSpell">{{#if isValid}}YES{{else}}NO{{/if}}</span></div>
         </div>
 
-    </section>
+            </section> <!-- Close wizard-content -->
+        </div> <!-- Close wizard-main -->
+
+        <!-- Sidebar Panel (20%) -->
+        <div class="wizard-sidebar">
+            <div class="spell-summary">
+                <h3>{{spell.spellName}}</h3>
+                <div class="spell-level">Level {{spell.spellLevel}}</div>
+                <div class="spell-school">{{spell.schoolOfMagic}}</div>
+            </div>
+
+            <div class="points-display">
+                <div class="points-total {{#if isValid}}valid{{else}}invalid{{/if}}">
+                    <span>Total Points:</span>
+                    <span class="points-value">{{points.total}}</span>
+                </div>
+                <div class="points-status {{#if isValid}}valid{{else}}invalid{{/if}}">
+                    {{#if isValid}}Valid Spell{{else}}Invalid Spell{{/if}}
+                </div>
+            </div>
+
+            <div class="points-breakdown">
+                <h4>Point Breakdown</h4>
+                <div class="breakdown-item">
+                    <span>Level:</span>
+                    <span>{{points.level}}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Components:</span>
+                    <span>{{points.components}}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Range:</span>
+                    <span>{{points.range}}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Effects:</span>
+                    <span>{{points.effects}}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Casting:</span>
+                    <span>{{points.casting}}</span>
+                </div>
+            </div>
+        </div> <!-- Close wizard-sidebar -->
+    </div> <!-- Close flex-container -->
 
     <footer class="sheet-footer flexrow">
-        <button type="submit" name="submit">
-            <i class="far fa-save"></i> {{localize "CUSTOM_SPELLS_5E.SubmitForReview"}}
+        <button type="button" class="nav-button" data-action="prev">
+            <i class="fas fa-arrow-left"></i> Previous
         </button>
+        
+        <div class="flexrow" style="flex: 1; justify-content: center;">
+            <button type="button" class="nav-button" data-action="next" style="margin-right: 10px;">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+            
+            <button type="submit" name="submit" class="nav-button submit-button hidden">
+                <i class="far fa-save"></i> {{localize "CUSTOM_SPELLS_5E.SubmitForReview"}}
+            </button>
+        </div>
     </footer>
 </form>

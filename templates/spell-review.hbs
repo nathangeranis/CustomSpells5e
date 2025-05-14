@@ -1,0 +1,48 @@
+<div class="spell-review">
+    <header class="window-header flexrow">
+        <h1 class="window-title">Spell Review Queue</h1>
+    </header>
+
+    <div class="review-content">
+        {{#each pendingSpells}}
+        <div class="spell-review-item" data-id="{{@index}}">
+            <h3>{{spellData.spellName}} (Level {{spellData.spellLevel}})</h3>
+            <div class="spell-meta">
+                <span>Submitted by: {{submittedBy}}</span>
+                <span>Submitted at: {{submittedAt}}</span>
+            </div>
+            
+            <div class="spell-details">
+                <div class="spell-points">
+                    <span>Total Points: {{points.total}}</span>
+                    <span class="{{#if isValid}}valid{{else}}invalid{{/if}}">
+                        {{#if isValid}}Valid{{else}}Invalid{{/if}}
+                    </span>
+                </div>
+                <div class="spell-breakdown">
+                    <span>Level: {{points.level}}</span>
+                    <span>Components: {{points.components}}</span>
+                    <span>Range: {{points.range}}</span>
+                    <span>Effects: {{points.effects}}</span>
+                </div>
+            </div>
+
+            <div class="review-actions flexrow">
+                <button type="button" class="approve-spell" data-action="approve">
+                    <i class="fas fa-check"></i> Approve
+                </button>
+                <button type="button" class="deny-spell" data-action="deny">
+                    <i class="fas fa-times"></i> Deny
+                </button>
+                <button type="button" class="request-changes" data-action="request-changes">
+                    <i class="fas fa-edit"></i> Request Changes
+                </button>
+            </div>
+        </div>
+        {{else}}
+        <div class="no-pending">
+            <p>No spells pending review</p>
+        </div>
+        {{/each}}
+    </div>
+</div>

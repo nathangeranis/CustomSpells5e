@@ -45,10 +45,10 @@ const RANGE_MODIFIERS = {
     "Extended": { distance: 120, modifier: -2 },
     "Far": { distance: 150, modifier: -2.5 },
     "Distant": { distance: 300, modifier: -3 },
-    "⅛ Mile": { distance: 660, modifier: -4 },
-    "¼ Mile": { distance: 1320, modifier: -5 },
-    "½ Mile": { distance: 2640, modifier: -6 },
-    "1 Mile": { distance: 5280, modifier: -7 }
+    "⅛ Mile": { distance: 660, modifier: 4 },
+    "¼ Mile": { distance: 1320, modifier: 5 },
+    "½ Mile": { distance: 2640, modifier: 6 },
+    "1 Mile": { distance: 5280, modifier: 7 }
 };
 
 const STATUS_EFFECT_COSTS = {
@@ -61,13 +61,13 @@ const STATUS_EFFECT_COSTS = {
 const DURATION_MODIFIERS = { // Assuming "Point Modifier" column
     "Instant": { noConcentration: 0, concentration: 0 }, // Concentration "No" for Instant
     "1 round": { noConcentration: 0, concentration: 0 }, // Concentration "Yes" for 1 round
-    "1 minute": { noConcentration: -2, concentration: -2 }, // CSV shows "Point Modifier" -2 for 1 minute, and "Concentration Required" cost 2
-    "10 minutes": { noConcentration: -2, concentration: -2 },
-    "1 hour": { noConcentration: -3, concentration: -3 },
-    "8 hours": { noConcentration: -4, concentration: -4 }, // CSV shows "8-12 hours" as 4 points in "Point Cost" column for "Cast Time" table section. This is confusing.
+    "1 minute": { noConcentration: -2, concentration: 2 }, // CSV shows "Point Modifier" -2 for 1 minute, and "Concentration Required" cost 2
+    "10 minutes": { noConcentration: -2, concentration: 2 },
+    "1 hour": { noConcentration: -3, concentration: 2 },
+    "8 hours": { noConcentration: -4, concentration: 2 }, // CSV shows "8-12 hours" as 4 points in "Point Cost" column for "Cast Time" table section. This is confusing.
                                                           // Sticking to "Duration" table for now.
-    "24 hours": { noConcentration: -5, concentration: -5 },
-    "Permanent": { noConcentration: -10, concentration: -10 }
+    "24 hours": { noConcentration: -5, concentration: 2 },
+    "Permanent": { noConcentration: -10, concentration: 2 }
 };
 
 const CONCENTRATION_COST = { // From "Modification Type" table
@@ -77,7 +77,7 @@ const CONCENTRATION_COST = { // From "Modification Type" table
 
 // Base point cost for spell effects, derived from "Spell Level ... Point Cost" table in References.csv
 const SPELL_LEVEL_EFFECT_BASE_COSTS = {
-    0: -1, 1: -2, 2: -4, 3: -6, 4: -8, 5: -10, 6: -12, 7: -14, 8: -16, 9: -18
+    0: -1, 1: -2, 2: -4, 3: -6, 4: -8, 5: -10, 6: -12, 7: 14, 8: -16, 9: -18
 };
 
 const EFFECT_TYPE_ADDITIONAL_COSTS = { // From "Effect Type" table
@@ -149,7 +149,7 @@ class SpellCalculator {
 
         this.points.total = Object.values(this.points).reduce((sum, p) => sum + p, 0) - this.points.total; // Sum all except total itself
 
-        // Determine validity (e.g., total points >= 0 or some other threshold)
+        // Determine validity (e.g., total points are >= 0 or some other threshold)
         // The example shows Total Points: -4, Valid Spell: NO.
         // Let's assume a spell is valid if total points are >= 0 for now.
         this.isValid = this.points.total >= 0;
@@ -170,7 +170,6 @@ class SpellCalculator {
             // Calculations.csv example has Somatic: 0 points, but BASE_COMPONENT_COSTS.somatic is 1.
             // The Spell Creator example has only Verbal selected.
             // For now, using BASE_COMPONENT_COSTS. If Somatic is truly 0, this needs adjustment.
-            // Let's assume the example in Calculations.csv (Somatic,0) means it wasn't selected for that spell.
              compPoints += BASE_COMPONENT_COSTS.somatic;
         }
         if (this.data.components?.material && this.data.materialValue) {
@@ -185,7 +184,6 @@ class SpellCalculator {
     calculateRangePoints() {
         // Example: Range: Self (0 ft) -> Range Points: 0
         // Calculations.csv: Base Range Modifier: 0.
-        // This implies the modifier from RANGE_MODIFIERS is the direct point value.
         const rangeData = RANGE_MODIFIERS[this.data.rangeName];
         if (rangeData) {
             this.points.range = rangeData.modifier;
@@ -197,24 +195,14 @@ class SpellCalculator {
         // This is the most complex part, based on Calculations.csv example:
         // Effect Points = Base Damage/Healing + Additional Effects + Status Effects (within effect) + Status Duration (within effect)
         // Base Damage/Healing = Total Die Cost
-        // Total Die Cost = Base Point Cost (from Spell Level table) + Die Point Cost (mystery -4) + Additional Type Cost
         
         let effectPts = 0;
 
         // 1. Base Point Cost (from Spell Level)
         let basePointCost = SPELL_LEVEL_EFFECT_BASE_COSTS[this.data.spellLevel] || 0;
-        // Note: The "Target Style" (Single Target / Area of Effect) from Spell Creator CSV
-        // and the "Single Target Die Value" / "AOE Die Value" columns from References.csv
-        // do not seem to alter this basePointCost, as per the Point Cost column in References.csv
-        // and the example calculation in Calculations.csv. They might be for other rules not related to points.
 
         // 2. Die Point Cost (Mystery -4 in example from Calculations.csv)
-        // This value's origin is unclear from References.csv.
-        // It might be related to number of dice, die size, or a fixed cost for damaging spells.
-        // For the example (Lvl 3, 6d10, AOE), Calculations.csv shows "Die Point Cost, -4".
         let diePointCost = 0;
-        // !!! CRITICAL TODO: Determine the logic for 'diePointCost'.
-        // For now, hardcoding to match the example if inputs match. This is not a general solution.
         if (this.data.spellLevel === 3 &&
             this.data.effectType === "Damage" && // Assuming it applies to damage effects
             this.data.numberOfDice === 6 &&
@@ -235,41 +223,24 @@ class SpellCalculator {
         if (this.data.effectType === "Temp HP") { // Assuming effectType can be 'Temp HP'
             effectPts += EFFECT_TYPE_ADDITIONAL_COSTS["Temp HP"] || -1;
         }
-        // TODO: Handle other "Additional Effects" from Calculations.csv if they become inputs
 
         // 5. Status Duration (if status is part of the primary effect, not a separate status application)
-        // The example calculation includes "Status Duration: -2" in Effect Points.
-        // Spell Creator has "Status Duration: 1 minute" but "Add Status Effects?: FALSE".
-        // This is ambiguous. If the main spell effect has a duration (not concentration related), it might apply here.
-        // For now, if a duration is specified for the *main effect* (not a separate status effect), and it's not "Instant".
-        // The example spell doesn't have a main duration field, only "Status Duration".
-        // Let's assume if there are no separate status effects, statusDuration applies to the main effect.
         if (!this.data.hasStatusEffects && this.data.statusDuration && this.data.statusDuration !== "Instant") {
             const durationInfo = DURATION_MODIFIERS[this.data.statusDuration];
             if (durationInfo) {
-                // Use noConcentration cost as base, concentration cost is handled in calculateCastingPoints
                 effectPts += durationInfo.noConcentration;
             }
         }
-        // This part is highly speculative based on the CSVs.
 
         this.points.effects = effectPts;
     }
 
     calculateStatusPoints() {
-        // This is for *separate* status effects, not those bundled into Effect Points.
-        // Calculations.csv example has "Status Effects: 0" under Effect Calculations, and Spell Creator has "Status Points: 0".
         let statusPts = 0;
         if (this.data.hasStatusEffects && this.data.selectedStatusEffects) {
             for (const effect of this.data.selectedStatusEffects) {
                 statusPts += STATUS_EFFECT_COSTS[effect] || 0;
             }
-            // If status effects have their own duration distinct from main effect duration
-            // and this duration has a cost not already accounted for in DURATION_MODIFIERS (which seems to be general).
-            // The current DURATION_MODIFIERS seems to apply to the spell overall or main effect.
-            // If status effects have a duration that *independently* costs points, that logic would go here.
-            // The example's "Status Duration: -2" was part of Effect Points.
-            // For now, assume status effect costs are just their base costs.
         }
         this.points.status = statusPts;
     }
@@ -289,17 +260,12 @@ class SpellCalculator {
     }
 
     calculateSavePoints() {
-        // Corresponds to "Additional Modifier Calculations" in Calculations.csv
         let savePts = 0;
         if (this.data.savingThrowRequired && this.data.primarySaveType) {
             savePts += SAVE_TYPE_COSTS[this.data.primarySaveType] || 0;
         }
         if (this.data.additionalSaveRequired && this.data.secondarySaveType) {
-            // The "Additonal Save Required" in SAVE_TYPE_COSTS is -1, which seems like a cost reduction.
-            // However, Calculations.csv example has "Additional Saves: 0" contributing 0.
-            // If an additional save *adds* cost, it should be positive.
-            // Assuming an additional save costs 1 point like a primary save.
-            savePts += SAVE_TYPE_COSTS[this.data.secondarySaveType] || 0; // Needs confirmation if this is the right cost.
+            savePts += SAVE_TYPE_COSTS[this.data.secondarySaveType] || 0;
         }
         this.points.save = savePts;
     }
@@ -317,16 +283,18 @@ class SpellCreatorApp extends FormApplication {
     }
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             id: "custom-spell-creator",
             classes: ["sheet", "custom-spell-creator-window"],
             template: `modules/${MODULE_ID}/templates/spell-creator.hbs`,
-            width: 720,
-            height: "auto",
+            width: 900,
+            height: 700,
             resizable: true,
+            minWidth: 800,
+            minHeight: 600,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "basic" }],
-            submitOnChange: false, // We'll manually trigger calculations
-            closeOnSubmit: false, // Keep open to see results/errors
+            submitOnChange: false,
+            closeOnSubmit: false,
             title: game.i18n.localize("CUSTOM_SPELLS_5E.SpellCreatorTitle")
         });
     }
@@ -381,7 +349,6 @@ class SpellCreatorApp extends FormApplication {
             {value: "conjuration", label: "Conjuration"},
             {value: "divination", label: "Divination"},
             {value: "enchantment", label: "Enchantment"},
-            {value: "evocation", label: "Evocation"},
             {value: "illusion", label: "Illusion"},
             {value: "necromancy", label: "Necromancy"},
             {value: "transmutation", label: "Transmutation"}
@@ -431,7 +398,7 @@ class SpellCreatorApp extends FormApplication {
         // formData is a flat object, e.g. "components.verbal": true
         // We need to merge it into this.spellData carefully
         const expandedData = foundry.utils.expandObject(formData);
-        mergeObject(this.spellData, expandedData);
+        foundry.utils.mergeObject(this.spellData, expandedData);
 
         // Special handling for checkboxes that might not be present in formData if unchecked
         this.spellData.components.verbal = expandedData.components?.verbal || false;
@@ -451,8 +418,74 @@ class SpellCreatorApp extends FormApplication {
     
     activateListeners(html) {
         super.activateListeners(html);
-        // Trigger recalculation on any form change
+        
+        // Wizard step navigation
+        html.find('.wizard-steps .step').on('click', this._onStepClick.bind(this));
+        html.find('[data-action="next"]').on('click', this._onNextStep.bind(this));
+        html.find('[data-action="prev"]').on('click', this._onPrevStep.bind(this));
+
+        // Form change handling
         html.find('input, select, textarea').on('change', this._onFormChange.bind(this));
+        
+        // Initialize first step
+        this._setActiveStep('basic');
+    }
+
+    _onStepClick(event) {
+        const step = event.currentTarget.dataset.step;
+        if (this._validateCurrentStep()) {
+            this._setActiveStep(step);
+        }
+    }
+
+    _onNextStep() {
+        const steps = ['basic', 'components', 'range', 'effects', 'casting', 'review'];
+        const currentIndex = steps.indexOf(this.currentStep);
+        if (currentIndex < steps.length - 1 && this._validateCurrentStep()) {
+            this._setActiveStep(steps[currentIndex + 1]);
+        }
+    }
+
+    _onPrevStep() {
+        const steps = ['basic', 'components', 'range', 'effects', 'casting', 'review'];
+        const currentIndex = steps.indexOf(this.currentStep);
+        if (currentIndex > 0) {
+            this._setActiveStep(steps[currentIndex - 1]);
+        }
+    }
+
+    _setActiveStep(step) {
+        this.currentStep = step;
+        
+        // Update UI
+        this.element.find('.wizard-steps .step').removeClass('active');
+        this.element.find(`.wizard-steps .step[data-step="${step}"]`).addClass('active');
+        
+        // Show/hide content sections
+        this.element.find('.wizard-content > div').addClass('hidden');
+        this.element.find(`.wizard-content .${step}`).removeClass('hidden');
+        
+        // Update navigation buttons
+        const steps = ['basic', 'components', 'range', 'effects', 'casting', 'review'];
+        const currentIndex = steps.indexOf(step);
+        
+        this.element.find('[data-action="prev"]').toggleClass('hidden', currentIndex === 0);
+        this.element.find('[data-action="next"]').toggleClass('hidden', currentIndex === steps.length - 1);
+        this.element.find('[data-action="submit"]').toggleClass('hidden', currentIndex !== steps.length - 1);
+    }
+
+    _validateCurrentStep() {
+        // Basic validation for current step
+        switch(this.currentStep) {
+            case 'basic':
+                return !!this.spellData.spellName && !!this.spellData.spellLevel;
+            case 'components':
+                return this.spellData.components.verbal || 
+                       this.spellData.components.somatic || 
+                       this.spellData.components.material;
+            default:
+                return true;
+        }
     }
 
     _onFormChange(event) {
@@ -471,15 +504,171 @@ class SpellCreatorApp extends FormApplication {
     }
 
     async _onSubmit(event, options = {}) {
-        // This is called when the submit button in the footer is clicked
-        console.log("Spell Submitted (Not yet implemented):", this.spellData);
-        // TODO: Implement spell submission logic (Phase 2, Step 2)
-        // This will involve saving the spellData for GM review.
-        ui.notifications.info(`Spell '${this.spellData.spellName}' submitted for review (not really yet!).`);
+        try {
+            // Load current spell database
+            const dbPath = `modules/${MODULE_ID}/packs/custom-spells.db`;
+            let spellDB = await fetch(dbPath).then(r => r.json());
+            
+            // Add submission metadata
+            const submission = {
+                spellData: this.spellData,
+                points: this.points,
+                submittedBy: game.user.id,
+                submittedAt: new Date().toISOString(),
+                status: "pending",
+                reviewedBy: null,
+                reviewedAt: null
+            };
+
+            // Add to pending queue
+            spellDB.pendingSpells.push(submission);
+
+            // Save updated database
+            await FilePicker.upload("data", dbPath, 
+                new File([JSON.stringify(spellDB, null, 2)], "custom-spells.db", {type: "application/json"}));
+
+            ui.notifications.info(`Spell '${this.spellData.spellName}' submitted for GM review!`);
+            this.close();
+        } catch (err) {
+            console.error("Error submitting spell:", err);
+            ui.notifications.error("Failed to submit spell for review");
+        }
     }
 }
 
 // --- End SpellCreatorApp Class ---
+
+class SpellReviewApp extends Application {
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "custom-spell-review",
+            title: "Spell Review Queue",
+            template: `modules/${MODULE_ID}/templates/spell-review.hbs`,
+            width: 800,
+            height: 600,
+            resizable: true
+        });
+    }
+
+    async getData(options) {
+        const dbPath = `modules/${MODULE_ID}/packs/custom-spells.db`;
+        const spellDB = await fetch(dbPath).then(r => r.json());
+        
+        // Map user IDs to names
+        const pendingWithNames = spellDB.pendingSpells.map(spell => {
+            const user = game.users.get(spell.submittedBy);
+            return {
+                ...spell,
+                submittedBy: user ? user.name : 'Unknown'
+            };
+        });
+
+        return {
+            pendingSpells: pendingWithNames
+        };
+    }
+
+    activateListeners(html) {
+        html.find('.approve-spell').on('click', this._onApprove.bind(this));
+        html.find('.deny-spell').on('click', this._onDeny.bind(this));
+        html.find('.request-changes').on('click', this._onRequestChanges.bind(this));
+    }
+
+    async _onApprove(event) {
+        const item = $(event.currentTarget).closest('.spell-review-item');
+        await this._updateSpellStatus(item.data('id'), 'approved');
+    }
+
+    async _onDeny(event) {
+        const item = $(event.currentTarget).closest('.spell-review-item');
+        await this._updateSpellStatus(item.data('id'), 'denied');
+    }
+
+    async _onRequestChanges(event) {
+        const item = $(event.currentTarget).closest('.spell-review-item');
+        await this._updateSpellStatus(item.data('id'), 'changes-requested');
+    }
+
+    async _updateSpellStatus(index, status) {
+        try {
+            const dbPath = `modules/${MODULE_ID}/packs/custom-spells.db`;
+            let spellDB = await fetch(dbPath).then(r => r.json());
+            
+            // Update spell status
+            const spell = spellDB.pendingSpells[index];
+            spell.status = status;
+            spell.reviewedBy = game.user.id;
+            spell.reviewedAt = new Date().toISOString();
+
+            // Move to appropriate list
+            spellDB.pendingSpells.splice(index, 1);
+            if (status === 'approved') {
+                spellDB.approvedSpells.push(spell);
+                 await this._addSpellToCompendiumAndPlayer(spell.spellData);
+            } else if (status === 'denied') {
+                spellDB.deniedSpells.push(spell);
+            } else {
+                // For changes requested, keep in pending but mark status
+                spellDB.pendingSpells.push(spell);
+            }
+
+            // Save updated database
+            await FilePicker.upload("data", dbPath, 
+                new File([JSON.stringify(spellDB, null, 2)], "custom-spells.db", {type: "application/json"}));
+
+            ui.notifications.info(`Spell ${status.replace('-', ' ')} successfully`);
+            this.render(true); // Refresh the view
+        } catch (err) {
+            console.error("Error updating spell status:", err);
+            ui.notifications.error("Failed to update spell status");
+        }
+    }
+
+    async _addSpellToCompendiumAndPlayer(spellData) {
+        try {
+            // Get the compendium
+            const compendiumName = 'custom-spells-5e.custom-spells-compendium';
+            const compendium = game.packs.get(compendiumName);
+
+            if (!compendium) {
+                console.error(`Compendium ${compendiumName} not found`);
+                ui.notifications.error(`Compendium ${compendiumName} not found`);
+                return;
+            }
+
+            // Create the item
+            const itemData = {
+                name: spellData.spellName,
+                type: 'spell',
+                img: 'icons/svg/magic.svg', // Default icon
+                data: spellData,
+                flags: {
+                    [MODULE_ID]: {
+                        customSpell: true
+                    }
+                }
+            };
+
+            // Create the item in the compendium
+            const item = await Item.create(itemData, { compendium: compendium.collection });
+            console.log(`Created spell item ${item.name} in compendium`);
+
+            // Add to player's character sheet (first player for simplicity)
+            const player = game.users.find(u => u.isGM).character; // Find the first GM's character
+            if (player) {
+                await player.createEmbeddedDocuments('Item', [itemData]);
+                ui.notifications.info(`Added spell ${item.name} to player ${player.name}`);
+            } else {
+                console.warn('No player character found to add the spell to.');
+                ui.notifications.warn('No player character found to add the spell to.');
+            }
+
+        } catch (err) {
+            console.error("Error adding spell to compendium and player:", err);
+            ui.notifications.error("Failed to add spell to compendium and player");
+        }
+    }
+}
 
 class SpellCreatorControls {
     static setControlHooks() {
@@ -499,6 +688,17 @@ class SpellCreatorControls {
                     button: true
                 };
                 console.log(`${MODULE_TITLE} | Added spell creator button to scene controls`);
+            }
+
+            if(game.user.isGM && !tokenControls["spell-review"]){
+                tokenControls["spell-review"] = {
+                    name: "spell-review",
+                    title: "Spell Review Queue",
+                    icon: "fas fa-clipboard-check",
+                    onClick: () => new SpellReviewApp().render(true),
+                    button: true
+                };
+                console.log(`${MODULE_TITLE} | Added spell review button to scene controls`);
             }
 
         });

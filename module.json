@@ -2,7 +2,7 @@
   "id": "custom-spells-5e",
   "title": "Custom Spells 5e",
   "description": "A module for creating, reviewing, and managing custom spells for D&D 5th Edition.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "compatibility": {
     "minimum": "10",
     "verified": "13"
@@ -18,7 +18,8 @@
     "custom-spells.js"
   ],
   "styles": [
-    "css/custom-spells.css"
+    "css/custom-spells.css",
+    "styles/spell-creator.css"
   ],
   "packs": [
     {

@@ -1,0 +1,254 @@
+/* Main Layout */
+.custom-spell-creator-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container {
+    display: flex;
+    height: calc(100% - 80px); /* Account for header/footer */
+    overflow: hidden;
+}
+
+.wizard-main {
+    width: 80%;
+    padding: 10px 15px 10px 10px;
+    overflow-y: auto;
+}
+
+.wizard-sidebar {
+    width: 20%;
+    border-left: 1px solid #ddd;
+    padding: 10px 10px 10px 15px;
+    background: #f5f5f5;
+    overflow-y: auto;
+}
+
+/* Wizard Steps */
+.wizard-steps {
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.wizard-steps .step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ddd;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.wizard-steps .step.active {
+    background: #4a90e2;
+    color: white;
+}
+
+/* Wizard Content */
+.wizard-content {
+    height: calc(100% - 45px); /* Account for steps */
+    overflow-y: auto;
+}
+
+/* Sidebar Styles */
+.spell-summary {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.spell-summary h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2em;
+}
+
+.spell-level, .spell-school {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.points-display {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.points-total {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.points-total.valid {
+    color: #4caf50;
+}
+
+.points-total.invalid {
+    color: #f44336;
+}
+
+.points-status {
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.points-status.valid {
+    background: #e8f5e9;
+    color: #4caf50;
+}
+
+.points-status.invalid {
+    background: #ffebee;
+    color: #f44336;
+}
+
+.points-breakdown h4 {
+    margin: 0 0 10px 0;
+    font-size: 1em;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 10px;
+}
+
+.checkbox-group {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Footer */
+.sheet-footer {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+    align-items: center;
+}
+
+.nav-button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+}
+
+.nav-button:hover {
+    background: #3a7bc8;
+}
+
+.nav-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.submit-button {
+    background: #4caf50;
+}
+
+.submit-button:hover {
+    background: #3d8b40;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Review Interface Styles */
+.spell-review {
+    padding: 10px;
+}
+
+.spell-review-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+}
+
+.spell-review-item h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.spell-meta {
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.spell-meta span {
+    margin-right: 15px;
+}
+
+.spell-details {
+    margin: 10px 0;
+}
+
+.spell-points {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.spell-points .valid {
+    color: #4caf50;
+    margin-left: 10px;
+}
+
+.spell-points .invalid {
+    color: #f44336;
+    margin-left: 10px;
+}
+
+.spell-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+.review-actions {
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.approve-spell {
+    background: #4caf50;
+    color: white;
+}
+
+.deny-spell {
+    background: #f44336;
+    color: white;
+}
+
+.request-changes {
+    background: #ff9800;
+    color: white;
+}
+
+.no-pending {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
