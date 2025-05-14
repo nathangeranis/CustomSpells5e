@@ -1,0 +1,28 @@
+Level,Bonus,Component Value,Not Consumed,Consumed,Range,Distance,Modifier,Status Effect,Point Cost,Requires Concentration,Duration,Point Modifier,Concentration Option,,Damage Die Options,Healing Die Options,,Spell Level,Single Target Die Value,AOE Die Value,Point Cost,Effect Type,Additional Cost,Modification Type,Point Cost,Cast Time,Point Cost
+0,1,5gp,0.5,1,Self,0,0,Blinded,-2,No,Instant,0,No,,d4,d4,,0,1,1,-1,Additional Effect Type,-1,Additional Effect Type*,-1,Reaction,-1
+1,3,10gp,1,2,Touch,5,2,Charmed,-2,Yes,1 round,0,No,,d6,d6,,1,2,2,-2,Temp HP,-1,Additonal Save Required,-1,Action,0
+2,5,25gp,1,2.5,Close,15,1,Deafened,-2,No,1 minute,-2,Yes,,d8,d8,,2,3,4,-4,,,Concentration Required,2,1 minute,1
+3,7,50gp,1.5,3.5,Medium,60,-1,Frightened,-2,Yes,10 minutes,-2,Yes,,d10,,,3,5,6,-6,,,Bonus Action/Reaction,-1,10 minutes,2
+4,9,100gp,2,4.5,Long,90,-1.5,Grappled,-2,No,1 hour,-3,Yes,,d12,,,4,6,7,-8,,,Strength Save,1,1 hour,3
+5,11,300gp,2,5,Extended,120,-2,Incapacitated,-2,Yes,8 hours,-4,Yes,,,,,5,8,8,-10,,,Dexterity Save,1,8-12 hours,4
+6,13,500gp,2.5,6,Far,150,-2.5,Invisible,-2,Yes,24 hours,-5,Yes,,,,,6,10,10,-12,,,Constitution Save,1,24 hours,5
+7,15,1000gp,3,7,Distant,300,-3,Paralyzed,-2,Yes,Permanent,-10,Yes,,,,,7,11,11,-14,,,Intelligence Save,1,,
+8,17,1500gp,3,7.5,⅛ Mile,660,-4,Petrified,-2,Yes,,,,,,,,8,12,12,-16,,,Wisdom Save,1,,
+9,19,2000gp,3,8,¼ Mile,1320,-5,Poisoned,-2,No,,,,,,,,9,15,14,-18,,,Charisma Save,1,,
+,,3000gp,3.5,9,½ Mile,2640,-6,Prone,-2,No,,,,,,,,,,,,,,Ritual Casting Option,1,,
+,,25000gp,4,10,1 Mile,5280,-7,Restrained,-2,No,,,,,,,,,,,,,,,,,
+,,,,,,,,Stunned,-2,Yes,,,,,,,,,,,,,,,,,
+,,,,,,,,Unconscious,-2,Yes,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+School Name,Class Name,,,,,,,,,,,,,,,,,,,,,,,,,,
+Abjuration,Artificer,,,,,,,,,,,,,,,,,,,,,,,,,,
+Conjuration,Bard,,,,,,,,,,,,,,,,,,,,,,,,,,
+Divination,Cleric,,,,,,,,,,,,,,,,,,,,,,,,,,
+Enchantment,Druid,,,,,,,,,,,,,,,,,,,,,,,,,,
+Evocation,Fighter,,,,,,,,,,,,,,,,,,,,,,,,,,
+Illusion,Paladin,,,,,,,,,,,,,,,,,,,,,,,,,,
+Necromancy,Ranger,,,,,,,,,,,,,,,,,,,,,,,,,,
+Transmutation,Sorcerer,,,,,,,,,,,,,,,,,,,,,,,,,,
+,Warlock,,,,,,,,,,,,,,,,,,,,,,,,,,
+,Wizard,,,,,,,,,,,,,,,,,,,,,,,,,,

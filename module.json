@@ -1,0 +1,50 @@
+{
+  "name": "custom-spells-5e",
+  "title": "Custom Spells 5e",
+  "description": "A module for creating, reviewing, and managing custom spells for D&D 5th Edition.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "11"
+  },
+  "authors": [
+    {
+      "name": "Cline (AI Assistant)",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "esmodules": [
+    "custom-spells.js"
+  ],
+  "styles": [
+    "css/custom-spells.css"
+  ],
+  "packs": [
+    {
+      "name": "custom-spells-compendium",
+      "label": "Custom Spells",
+      "system": "dnd5e",
+      "path": "./packs/custom-spells.db",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "system": ["dnd5e"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "url": "https://github.com/your-repo/custom-spells-5e",
+  "manifest": "https://your-repo.com/path/to/your/module.json",
+  "download": "https://your-repo.com/path/to/your/module-v0.1.0.zip",
+  "readme": "README.md",
+  "bugs": "https://github.com/your-repo/custom-spells-5e/issues",
+  "changelog": "CHANGELOG.md",
+  "socket": false,
+  "library": false
+}

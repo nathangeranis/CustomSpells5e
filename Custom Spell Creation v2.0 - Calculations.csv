@@ -1,0 +1,23 @@
+Component Calculations,,,Total Component Points,,Level Points Calculation,,Total Level Points,,Range & Targeting Calculations,,,Total Range & Targeting Points,,Effect Calculations,,,Total Effect Points,,Casting Calculations,,,Total Casting Points,,Additional Modifier Calculations,,,Total Additional Points,Final Points Calculation,,,TOTAL POINTS
+Verbal,1,,1,,Spell Level,3,7,,Base Range Modifier,0,,0,,Base Damage/Healing,-11,,-13,,Cast Time Modifier,0,,0,,Save Type,1,,1,Components Total,1,,-4
+Somatic,0,,,,Level Bonus,7,,,Additional Target Cost,0,,,,Additional Effects,0,,,,Concentration,0,,,,Additional Saves,0,,,Level Bonus,7,,"""Valid?"""
+Material Value,0,,,,,,,,Volume Level,0,,,,Status Effects,0,,,,,,,,,Ritual Option,0,,,Range & Targeting,0,,NO
+Material Consumed,0,,,,,,,,Volume Modifier,0,,,,Status Duration,-2,,,,,,,,,,,,,Effects Total,-13,,
+,,,,,,,,,,,,,,Additional Damage Types,-1,,,,,,,,,,,,,Casting Total,0,,
+,,,,,,,,,,,,,,,,,Die Size Options,,,,,,,,,,,Additional Modifiers,1,,
+,,,,,,,,,,,,,,Number of Effects,0,,d4,,,,,,,,,,,Status Total,,,
+,,,,,,,,,,,,,,Blinded,No,,d6,,,,,,,Volume Calculations,,,,,,,
+,,,,,,,,,,,,,,Charmed,No,,d8,,,,,,,Shape,Sphere,,,,,,
+,,,,,,,,,,,,,,Deafened,No,,d10,,,,,,,Size,40,,,,,,
+,,,,,,,,,,,,,,Frightened,No,,d12,,,,,,,Volume,0,,,,,,
+,,,,,,,,,,,,,,Grappled,No,,,,,,,,,Volume Level,,,,,,,
+,,,,,,,,,,,,,,Incapacitated,No,,Base Dice Count,6,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Invisible,No,,Damage Type Count,2,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Paralyzed,No,,Adjusted Dice per Type,3,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Petrified,No,,Die Point Cost,-4,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Poisoned,No,,Base Point Cost,-6,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Prone,No,,Additional Type Cost,-1,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Restrained,No,,Total Die Cost,-11,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Stunned,No,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Unconscious,No,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,Concentration,Not Required,,,,,,,,,,,,,,,,

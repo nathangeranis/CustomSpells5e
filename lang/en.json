@@ -1,0 +1,15 @@
+{
+  "CUSTOM_SPELLS_5E.Title": "Custom Spells 5e",
+  "CUSTOM_SPELLS_5E.SpellCreatorTitle": "Custom Spell Creator",
+  "CUSTOM_SPELLS_5E.GMReviewTitle": "GM Spell Review",
+
+  "CUSTOM_SPELLS_5E.SubmitForReview": "Submit for Review",
+  "CUSTOM_SPELLS_5E.Approve": "Approve",
+  "CUSTOM_SPELLS_5E.Deny": "Deny",
+  "CUSTOM_SPELLS_5E.SuggestChanges": "Suggest Changes",
+
+  "CUSTOM_SPELLS_5E.Notifications.Submitted": "Your custom spell '{spellName}' has been submitted for GM review.",
+  "CUSTOM_SPELLS_5E.Notifications.Approved": "Your custom spell '{spellName}' has been approved by the GM and added to your spell list.",
+  "CUSTOM_SPELLS_5E.Notifications.Denied": "Your custom spell '{spellName}' has been denied by the GM. Reason: {reason}",
+  "CUSTOM_SPELLS_5E.Notifications.ChangesSuggested": "The GM has suggested changes for your custom spell '{spellName}'. Notes: {notes}"
+}

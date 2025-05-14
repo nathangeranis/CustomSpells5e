@@ -1,0 +1,259 @@
+<form class="custom-spell-creator-form flexcol">
+    <header class="window-header flexrow">
+        <h1 class="window-title">{{localize "CUSTOM_SPELLS_5E.SpellCreatorTitle"}}</h1>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="basic">Basic Info</a>
+        <a class="item" data-tab="components">Components</a>
+        <a class="item" data-tab="range">Range & Targeting</a>
+        <a class="item" data-tab="effects">Effects</a>
+        <a class="item" data-tab="status">Status Effects</a>
+        <a class="item" data-tab="casting">Casting</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="points">Points</a>
+    </nav>
+
+    <section class="sheet-body">
+        <!-- Basic Information Tab -->
+        <div class="tab basic" data-group="primary" data-tab="basic">
+            <div class="form-group">
+                <label for="spellName">Spell Name:</label>
+                <input type="text" id="spellName" name="spellName" value="{{spell.name}}">
+            </div>
+            <div class="form-group">
+                <label for="schoolOfMagic">School of Magic:</label>
+                <select id="schoolOfMagic" name="schoolOfMagic">
+                    {{#select spell.schoolOfMagic}}
+                    <option value="abjuration">Abjuration</option>
+                    <option value="conjuration">Conjuration</option>
+                    <option value="divination">Divination</option>
+                    <option value="enchantment">Enchantment</option>
+                    <option value="evocation">Evocation</option>
+                    <option value="illusion">Illusion</option>
+                    <option value="necromancy">Necromancy</option>
+                    <option value="transmutation">Transmutation</option>
+                    {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="spellLevel">Spell Level (0-9):</label>
+                <input type="number" id="spellLevel" name="spellLevel" value="{{spell.spellLevel}}" min="0" max="9">
+            </div>
+            <div class="form-group">
+                <label>Available Classes:</label>
+                {{#each availableClasses}}
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="class-{{@index}}" name="availableClasses.{{this}}" {{checked spell.availableClasses[this]}}>
+                        <label for="class-{{@index}}">{{this}}</label>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+
+        <!-- Components Tab -->
+        <div class="tab components" data-group="primary" data-tab="components">
+            <div class="form-group">
+                <label>Select Components:</label>
+                <input type="checkbox" id="compVerbal" name="components.verbal" {{checked spell.components.verbal}}>
+                <label for="compVerbal">Verbal</label>
+                <input type="checkbox" id="compSomatic" name="components.somatic" {{checked spell.components.somatic}}>
+                <label for="compSomatic">Somatic</label>
+                <input type="checkbox" id="compMaterial" name="components.material" {{checked spell.components.material}}>
+                <label for="compMaterial">Material</label>
+            </div>
+            <div class="form-group">
+                <label for="materialComponentValue">Material Component Value (e.g., 5gp, 100gp):</label>
+                <input type="text" id="materialComponentValue" name="materialComponentValue" value="{{spell.materialComponentValue}}">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="materialConsumed" name="materialConsumed" {{checked spell.materialConsumed}}>
+                <label for="materialConsumed">Material Consumed?</label>
+            </div>
+        </div>
+
+        <!-- Range & Targeting Tab -->
+        <div class="tab range" data-group="primary" data-tab="range">
+            <div class="form-group">
+                <label for="rangeName">Range:</label>
+                <select id="rangeName" name="rangeName">
+                    {{#select spell.rangeName}}
+                    <option value="Self">Self</option>
+                    <option value="Touch">Touch</option>
+                    <option value="Close">Close (15 ft)</option>
+                    <option value="Medium">Medium (60 ft)</option>
+                    <option value="Long">Long (90 ft)</option>
+                    <option value="Extended">Extended (120 ft)</option>
+                    <option value="Far">Far (150 ft)</option>
+                    <option value="Distant">Distant (300 ft)</option>
+                    <option value="⅛ Mile">⅛ Mile (660 ft)</option>
+                    <option value="¼ Mile">¼ Mile (1320 ft)</option>
+                    <option value="½ Mile">½ Mile (2640 ft)</option>
+                    <option value="1 Mile">1 Mile (5280 ft)</option>
+                    {{/select}}
+                </select>
+            </div>
+             <div class="form-group">
+                <label for="targetType">Target Type:</label> <!-- e.g., Self, Creature, Object, Area of Effect -->
+                <input type="text" id="targetType" name="targetType" value="{{spell.targetType}}">
+            </div>
+            <div class="form-group">
+                <label for="targetShape">Shape (if Area of Effect):</label> <!-- e.g., Sphere, Cube, Cone, Line -->
+                <input type="text" id="targetShape" name="targetShape" value="{{spell.targetShape}}">
+            </div>
+             <div class="form-group">
+                <label for="targetSize">Size (ft, if applicable):</label>
+                <input type="number" id="targetSize" name="targetSize" value="{{spell.targetSize}}">
+            </div>
+        </div>
+
+        <!-- Effects Tab -->
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            <div class="form-group">
+                <label for="effectType">Effect Type:</label> <!-- e.g., Damage, Healing, Utility, Control -->
+                <input type="text" id="effectType" name="effectType" value="{{spell.effectType}}">
+            </div>
+            <div class="form-group">
+                <label for="targetStyle">Target Style (for damage/healing):</label>
+                <select id="targetStyle" name="targetStyle">
+                    {{#select spell.targetStyle}}
+                    <option value="Single Target">Single Target</option>
+                    <option value="Area of Effect">Area of Effect</option>
+                    {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Damage Types (select all that apply):</label>
+                {{#each damageTypes}}
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="damage-{{@index}}" name="damageTypes[]" value="{{this}}" {{checked (includes spell.damageTypes this)}}>
+                        <label for="damage-{{@index}}">{{this}}</label>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="form-group">
+                <label for="numberOfDice">Number of Dice:</label>
+                <input type="number" id="numberOfDice" name="numberOfDice" value="{{spell.numberOfDice}}" min="0">
+            </div>
+            <div class="form-group">
+                <label for="dieSize">Die Size:</label>
+                <select id="dieSize" name="dieSize">
+                    {{#select spell.dieSize}}
+                    <option value="d4">d4</option>
+                    <option value="d6">d6</option>
+                    <option value="d8">d8</option>
+                    <option value="d10">d10</option>
+                    <option value="d12">d12</option>
+                    {{/select}}
+                </select>
+            </div>
+            <!-- Secondary Effect Dice if applicable -->
+        </div>
+
+        <!-- Status Effects Tab -->
+        <div class="tab status" data-group="primary" data-tab="status">
+            <div class="form-group">
+                <input type="checkbox" id="hasStatusEffects" name="hasStatusEffects" {{checked spell.hasStatusEffects}}>
+                <label for="hasStatusEffects">Add Status Effects?</label>
+            </div>
+            <div class="form-group">
+                <label>Select Status Effects:</label>
+                {{#each statusEffects}}
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="status-{{@index}}" name="selectedStatusEffects[]" value="{{this}}" {{checked (includes spell.selectedStatusEffects this)}}>
+                        <label for="status-{{@index}}">{{this}}</label>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="form-group">
+                <label for="secondarySaveType">Secondary Save Type:</label>
+                <select id="secondarySaveType" name="secondarySaveType">
+                    <option value="">None</option>
+                    {{#each saveTypes}}
+                        <option value="{{this}}" {{selected (eq this spell.secondarySaveType)}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <!-- Casting Tab -->
+        <div class="tab casting" data-group="primary" data-tab="casting">
+            <div class="form-group">
+                <label for="castTime">Cast Time:</label>
+                <select id="castTime" name="castTime">
+                    {{#select spell.castTime}}
+                    <option value="Action">Action</option>
+                    <option value="Bonus Action">Bonus Action</option>
+                    <option value="Reaction">Reaction</option>
+                    <option value="1 minute">1 minute</option>
+                    <option value="10 minutes">10 minutes</option>
+                    <option value="1 hour">1 hour</option>
+                    <!-- Add other common D&D 5e cast times -->
+                    {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="concentrationRequired" name="concentrationRequired" {{checked spell.concentrationRequired}}>
+                <label for="concentrationRequired">Concentration Required?</label>
+            </div>
+             <div class="form-group">
+                <input type="checkbox" id="isRitual" name="isRitual" {{checked spell.isRitual}}>
+                <label for="isRitual">Ritual Casting Possible?</label>
+            </div>
+            <div class="form-group">
+                <label for="savingThrowRequired">Saving Throw:</label>
+                <input type="checkbox" id="savingThrowRequired" name="savingThrowRequired" {{checked spell.savingThrowRequired}}>
+                <label for="savingThrowRequired">Required?</label>
+            </div>
+            <div class="form-group">
+                <label for="primarySaveType">Primary Save Type:</label>
+                <select id="primarySaveType" name="primarySaveType">
+                    {{#select spell.primarySaveType}}
+                    <option value="Strength Save">Strength</option>
+                    <option value="Dexterity Save">Dexterity</option>
+                    <option value="Constitution Save">Constitution</option>
+                    <option value="Intelligence Save">Intelligence</option>
+                    <option value="Wisdom Save">Wisdom</option>
+                    <option value="Charisma Save">Charisma</option>
+                    {{/select}}
+                </select>
+            </div>
+            <!-- Additional Save if applicable -->
+        </div>
+
+        <!-- Description Tab -->
+        <div class="tab description" data-group="primary" data-tab="description">
+            <div class="form-group">
+                <label for="specialFeaturesDescription">Special Features Description:</label>
+                <textarea id="specialFeaturesDescription" name="specialFeaturesDescription" rows="4">{{spell.specialFeaturesDescription}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="fullDescription">Full Spell Description:</label>
+                <textarea id="fullDescription" name="fullDescription" rows="8">{{spell.fullDescription}}</textarea>
+            </div>
+        </div>
+        
+        <!-- Points Tab -->
+        <div class="tab points" data-group="primary" data-tab="points">
+            <h3>Point Calculations</h3>
+            <div class="form-group"><span>Level Points:</span> <span class="points-value" id="pointsLevel">{{points.level}}</span></div>
+            <div class="form-group"><span>Component Points:</span> <span class="points-value" id="pointsComponents">{{points.components}}</span></div>
+            <div class="form-group"><span>Range Points:</span> <span class="points-value" id="pointsRange">{{points.range}}</span></div>
+            <div class="form-group"><span>Effect Points:</span> <span class="points-value" id="pointsEffects">{{points.effects}}</span></div>
+            <div class="form-group"><span>Status Points:</span> <span class="points-value" id="pointsStatus">{{points.status}}</span></div>
+            <div class="form-group"><span>Casting Points:</span> <span class="points-value" id="pointsCasting">{{points.casting}}</span></div>
+            <div class="form-group"><span>Save Points:</span> <span class="points-value" id="pointsSave">{{points.save}}</span></div>
+            <hr>
+            <div class="form-group"><strong>Total Points:</strong> <strong class="points-value" id="pointsTotal">{{points.total}}</strong></div>
+            <div class="form-group"><strong>Valid Spell:</strong> <span id="isValidSpell">{{#if isValid}}YES{{else}}NO{{/if}}</span></div>
+        </div>
+
+    </section>
+
+    <footer class="sheet-footer flexrow">
+        <button type="submit" name="submit">
+            <i class="far fa-save"></i> {{localize "CUSTOM_SPELLS_5E.SubmitForReview"}}
+        </button>
+    </footer>
+</form>

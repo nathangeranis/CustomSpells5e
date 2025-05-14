@@ -1,0 +1,2 @@
+# This file ensures the 'packs' directory is tracked by Git.
+# Foundry VTT will create the actual .db file for the compendium pack.
