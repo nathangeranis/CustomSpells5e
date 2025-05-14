@@ -435,32 +435,46 @@ class SpellCreatorControls {
     static init() {
         this.instance = new SpellCreatorControls();
         Hooks.on('getSceneControlButtons', this._onGetSceneControlButtons.bind(this));
-        Hooks.on('renderSceneControls', this._onRenderSceneControls.bind(this));
+        Hooks.on('renderTokenHUD', this._onRenderTokenHUD.bind(this));
+        console.log(`${MODULE_TITLE} | Initialized control hooks`);
     }
 
-    static _onGetSceneControlButtons(controls) {
-        this.instance._addControls(controls);
+    static _onGetSceneControlButtons(controls, b, c) {
+        console.log(`${MODULE_TITLE} | Scene control buttons hook triggered`);
+        this.instance._addSceneControls(controls);
     }
 
-    static _onRenderSceneControls(controls) {
-        this.instance._addControls(controls);
+    static _onRenderTokenHUD(app, html, data) {
+        console.log(`${MODULE_TITLE} | Token HUD render hook triggered`);
+        this.instance._addTokenHUDControls(app, html);
     }
 
-    _addControls(controls) {
-        const tokenControls = controls.find(c => c.name === "token");
-        if (!tokenControls) return;
+    _addSceneControls(controls) {
+        if (!controls.tokens) {
+            console.warn(`${MODULE_TITLE} | No tokens control group found`);
+            return;
+        }
 
-        // Only add if not already present
-        if (!tokenControls.tools.some(t => t.name === "spell-creator")) {
-            tokenControls.tools.push({
+        if (!controls.tokens.tools.some(t => t.name === "spell-creator")) {
+            controls.tokens.tools.push({
                 name: "spell-creator",
                 title: "Open Spell Creator",
                 icon: "fas fa-magic",
                 onClick: () => new SpellCreatorApp().render(true),
                 button: true
             });
-            console.log(`${MODULE_TITLE} | Added spell creator button to token controls`);
+            console.log(`${MODULE_TITLE} | Added spell creator button to scene controls`);
         }
+    }
+
+    _addTokenHUDControls(app, html) {
+        const button = document.createElement("div");
+        button.classList.add("control-icon");
+        button.innerHTML = '<i class="fas fa-magic"></i>';
+        button.title = "Open Spell Creator";
+        html.querySelector(".col.left").prepend(button);
+        button.onclick = () => new SpellCreatorApp().render(true);
+        console.log(`${MODULE_TITLE} | Added spell creator button to token HUD`);
     }
 }
 
