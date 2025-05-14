@@ -24,16 +24,7 @@
             <div class="form-group">
                 <label for="schoolOfMagic">School of Magic:</label>
                 <select id="schoolOfMagic" name="schoolOfMagic">
-                    {{#select spell.schoolOfMagic}}
-                    <option value="abjuration">Abjuration</option>
-                    <option value="conjuration">Conjuration</option>
-                    <option value="divination">Divination</option>
-                    <option value="enchantment">Enchantment</option>
-                    <option value="evocation">Evocation</option>
-                    <option value="illusion">Illusion</option>
-                    <option value="necromancy">Necromancy</option>
-                    <option value="transmutation">Transmutation</option>
-                    {{/select}}
+                    {{selectOptions schools selected=spell.schoolOfMagic}}
                 </select>
             </div>
             <div class="form-group">
@@ -79,20 +70,7 @@
             <div class="form-group">
                 <label for="rangeName">Range:</label>
                 <select id="rangeName" name="rangeName">
-                    {{#select spell.rangeName}}
-                    <option value="Self">Self</option>
-                    <option value="Touch">Touch</option>
-                    <option value="Close">Close (15 ft)</option>
-                    <option value="Medium">Medium (60 ft)</option>
-                    <option value="Long">Long (90 ft)</option>
-                    <option value="Extended">Extended (120 ft)</option>
-                    <option value="Far">Far (150 ft)</option>
-                    <option value="Distant">Distant (300 ft)</option>
-                    <option value="⅛ Mile">⅛ Mile (660 ft)</option>
-                    <option value="¼ Mile">¼ Mile (1320 ft)</option>
-                    <option value="½ Mile">½ Mile (2640 ft)</option>
-                    <option value="1 Mile">1 Mile (5280 ft)</option>
-                    {{/select}}
+                    {{selectOptions ranges selected=spell.rangeName}}
                 </select>
             </div>
              <div class="form-group">
@@ -118,10 +96,7 @@
             <div class="form-group">
                 <label for="targetStyle">Target Style (for damage/healing):</label>
                 <select id="targetStyle" name="targetStyle">
-                    {{#select spell.targetStyle}}
-                    <option value="Single Target">Single Target</option>
-                    <option value="Area of Effect">Area of Effect</option>
-                    {{/select}}
+                    {{selectOptions targetStyles selected=spell.targetStyle}}
                 </select>
             </div>
             <div class="form-group">
@@ -140,13 +115,7 @@
             <div class="form-group">
                 <label for="dieSize">Die Size:</label>
                 <select id="dieSize" name="dieSize">
-                    {{#select spell.dieSize}}
-                    <option value="d4">d4</option>
-                    <option value="d6">d6</option>
-                    <option value="d8">d8</option>
-                    <option value="d10">d10</option>
-                    <option value="d12">d12</option>
-                    {{/select}}
+                    {{selectOptions dieSizes selected=spell.dieSize}}
                 </select>
             </div>
             <!-- Secondary Effect Dice if applicable -->
@@ -180,15 +149,7 @@
             <div class="form-group">
                 <label for="castTime">Cast Time:</label>
                 <select id="castTime" name="castTime">
-                    {{#select spell.castTime}}
-                    <option value="Action">Action</option>
-                    <option value="Bonus Action">Bonus Action</option>
-                    <option value="Reaction">Reaction</option>
-                    <option value="1 minute">1 minute</option>
-                    <option value="10 minutes">10 minutes</option>
-                    <option value="1 hour">1 hour</option>
-                    <!-- Add other common D&D 5e cast times -->
-                    {{/select}}
+                    {{selectOptions castTimes selected=spell.castTime}}
                 </select>
             </div>
             <div class="form-group">

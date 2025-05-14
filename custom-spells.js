@@ -374,6 +374,56 @@ class SpellCreatorApp extends FormApplication {
         context.damageTypes = DAMAGE_TYPES;
         context.statusEffects = STATUS_EFFECTS;
         context.saveTypes = SAVE_TYPES;
+        
+        // Add option arrays for selectOptions
+        context.schools = [
+            {value: "abjuration", label: "Abjuration"},
+            {value: "conjuration", label: "Conjuration"},
+            {value: "divination", label: "Divination"},
+            {value: "enchantment", label: "Enchantment"},
+            {value: "evocation", label: "Evocation"},
+            {value: "illusion", label: "Illusion"},
+            {value: "necromancy", label: "Necromancy"},
+            {value: "transmutation", label: "Transmutation"}
+        ];
+        
+        context.ranges = [
+            {value: "Self", label: "Self"},
+            {value: "Touch", label: "Touch"},
+            {value: "Close", label: "Close (15 ft)"},
+            {value: "Medium", label: "Medium (60 ft)"},
+            {value: "Long", label: "Long (90 ft)"},
+            {value: "Extended", label: "Extended (120 ft)"},
+            {value: "Far", label: "Far (150 ft)"},
+            {value: "Distant", label: "Distant (300 ft)"},
+            {value: "⅛ Mile", label: "⅛ Mile (660 ft)"},
+            {value: "¼ Mile", label: "¼ Mile (1320 ft)"},
+            {value: "½ Mile", label: "½ Mile (2640 ft)"},
+            {value: "1 Mile", label: "1 Mile (5280 ft)"}
+        ];
+        
+        context.targetStyles = [
+            {value: "Single Target", label: "Single Target"},
+            {value: "Area of Effect", label: "Area of Effect"}
+        ];
+        
+        context.dieSizes = [
+            {value: "d4", label: "d4"},
+            {value: "d6", label: "d6"},
+            {value: "d8", label: "d8"},
+            {value: "d10", label: "d10"},
+            {value: "d12", label: "d12"}
+        ];
+        
+        context.castTimes = [
+            {value: "Action", label: "Action"},
+            {value: "Bonus Action", label: "Bonus Action"},
+            {value: "Reaction", label: "Reaction"},
+            {value: "1 minute", label: "1 minute"},
+            {value: "10 minutes", label: "10 minutes"},
+            {value: "1 hour", label: "1 hour"}
+        ];
+        
         return context;
     }
 
@@ -470,4 +520,3 @@ Hooks.on("ready", () => {
   // Register module settings
   // e.g., game.settings.register(MODULE_ID, 'someSetting', { ... });
 });
-
