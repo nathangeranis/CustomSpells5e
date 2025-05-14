@@ -431,6 +431,39 @@ class SpellCreatorApp extends FormApplication {
 
 // --- End SpellCreatorApp Class ---
 
+class SpellCreatorControls {
+    static init() {
+        this.instance = new SpellCreatorControls();
+        Hooks.on('getSceneControlButtons', this._onGetSceneControlButtons.bind(this));
+        Hooks.on('renderSceneControls', this._onRenderSceneControls.bind(this));
+    }
+
+    static _onGetSceneControlButtons(controls) {
+        this.instance._addControls(controls);
+    }
+
+    static _onRenderSceneControls(controls) {
+        this.instance._addControls(controls);
+    }
+
+    _addControls(controls) {
+        const tokenControls = controls.find(c => c.name === "token");
+        if (!tokenControls) return;
+
+        // Only add if not already present
+        if (!tokenControls.tools.some(t => t.name === "spell-creator")) {
+            tokenControls.tools.push({
+                name: "spell-creator",
+                title: "Open Spell Creator",
+                icon: "fas fa-magic",
+                onClick: () => new SpellCreatorApp().render(true),
+                button: true
+            });
+            console.log(`${MODULE_TITLE} | Added spell creator button to token controls`);
+        }
+    }
+}
+
 console.log(`${MODULE_TITLE} | Initializing`);
 
 /**
@@ -451,22 +484,7 @@ Hooks.once('init', async () => {
  */
 Hooks.once('ready', async () => {
   console.log(`${MODULE_TITLE} | Custom Spells 5e Module Ready`);
-
-  // Register spell creator button in token controls
-  Hooks.on('getSceneControlButtons', (controls) => {
-    const tokenControls = controls.find(c => c.name === "tokens");
-    if (tokenControls) {
-        tokenControls.tools.push({
-            name: "spell-creator",
-            title: "Open Spell Creator",
-            icon: "fas fa-magic",
-            onClick: () => {
-                new SpellCreatorApp().render(true);
-            },
-            button: true
-        });
-    }
-  });
+  SpellCreatorControls.init();
 });
 
 /**
