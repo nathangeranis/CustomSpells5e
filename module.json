@@ -9,8 +9,8 @@
   },
   "authors": [
     {
-      "name": "Cline (AI Assistant)",
-      "email": "",
+      "name": "GeranisaurusRex",
+      "email": "nathangeranis@outlook.com",
       "url": ""
     }
   ],
@@ -39,11 +39,11 @@
       "path": "lang/en.json"
     }
   ],
-  "url": "https://github.com/your-repo/custom-spells-5e",
-  "manifest": "https://your-repo.com/path/to/your/module.json",
-  "download": "https://your-repo.com/path/to/your/module-v0.1.0.zip",
+  "url": "https://github.com/nathangeranis/CustomSpells5e",
+  "manifest": "https://raw.githubusercontent.com/nathangeranis/CustomSpells5e/main/module.json",
+  "download": "https://github.com/nathangeranis/CustomSpells5e/archive/refs/heads/main.zip",
   "readme": "README.md",
-  "bugs": "https://github.com/your-repo/custom-spells-5e/issues",
+  "bugs": "https://github.com/nathangeranis/CustomSpells5e/issues",
   "changelog": "CHANGELOG.md",
   "socket": false,
   "library": false
