@@ -170,10 +170,7 @@
             <div class="form-group">
                 <label for="secondarySaveType">Secondary Save Type:</label>
                 <select id="secondarySaveType" name="secondarySaveType">
-                    <option value="">None</option>
-                    {{#each saveTypes}}
-                        <option value="{{this}}" {{selected (eq this spell.secondarySaveType)}}>{{this}}</option>
-                    {{/each}}
+                    {{selectOptions saveTypes selected=spell.secondarySaveType blank="None"}}
                 </select>
             </div>
         </div>
@@ -210,14 +207,7 @@
             <div class="form-group">
                 <label for="primarySaveType">Primary Save Type:</label>
                 <select id="primarySaveType" name="primarySaveType">
-                    {{#select spell.primarySaveType}}
-                    <option value="Strength Save">Strength</option>
-                    <option value="Dexterity Save">Dexterity</option>
-                    <option value="Constitution Save">Constitution</option>
-                    <option value="Intelligence Save">Intelligence</option>
-                    <option value="Wisdom Save">Wisdom</option>
-                    <option value="Charisma Save">Charisma</option>
-                    {{/select}}
+                    {{selectOptions saveTypes selected=spell.primarySaveType}}
                 </select>
             </div>
             <!-- Additional Save if applicable -->
