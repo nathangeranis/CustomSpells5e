@@ -2,10 +2,10 @@
   "id": "custom-spells-5e",
   "title": "Custom Spells 5e",
   "description": "A module for creating, reviewing, and managing custom spells for D&D 5th Edition.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
     "minimum": "10",
-    "verified": "11"
+    "verified": "13"
   },
   "authors": [
     {
