@@ -44,7 +44,8 @@
                 <label>Available Classes:</label>
                 {{#each availableClasses}}
                     <div class="checkbox-group">
-                        <input type="checkbox" id="class-{{@index}}" name="availableClasses.{{this}}" {{checked spell.availableClasses[this]}}>
+                        <input type="checkbox" id="class-{{@index}}" name="availableClasses.{{this}}" 
+                               {{checked (lookup ../spell.availableClasses this)}}>
                         <label for="class-{{@index}}">{{this}}</label>
                     </div>
                 {{/each}}
@@ -127,7 +128,7 @@
                 <label>Damage Types (select all that apply):</label>
                 {{#each damageTypes}}
                     <div class="checkbox-group">
-                        <input type="checkbox" id="damage-{{@index}}" name="damageTypes[]" value="{{this}}" {{checked (includes spell.damageTypes this)}}>
+                        <input type="checkbox" id="damage-{{@index}}" name="damageTypes[]" value="{{this}}" {{checked (lookup ../spell.damageTypes @index)}}>
                         <label for="damage-{{@index}}">{{this}}</label>
                     </div>
                 {{/each}}
@@ -161,7 +162,7 @@
                 <label>Select Status Effects:</label>
                 {{#each statusEffects}}
                     <div class="checkbox-group">
-                        <input type="checkbox" id="status-{{@index}}" name="selectedStatusEffects[]" value="{{this}}" {{checked (includes spell.selectedStatusEffects this)}}>
+                        <input type="checkbox" id="status-{{@index}}" name="selectedStatusEffects[]" value="{{this}}" {{checked (lookup ../spell.selectedStatusEffects @index)}}>
                         <label for="status-{{@index}}">{{this}}</label>
                     </div>
                 {{/each}}

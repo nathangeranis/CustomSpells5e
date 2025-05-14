@@ -432,116 +432,42 @@ class SpellCreatorApp extends FormApplication {
 // --- End SpellCreatorApp Class ---
 
 class SpellCreatorControls {
-    static init() {
-        this.instance = new SpellCreatorControls();
-        Hooks.on('getSceneControlButtons', this._onGetSceneControlButtons.bind(this));
-        Hooks.on('renderTokenHUD', this._onRenderTokenHUD.bind(this));
+    static setControlHooks() {
+        Hooks.on("getSceneControlButtons", (controls, b, c) => {
+            if (!controls.tokens) {
+                console.warn(`${MODULE_TITLE} | No tokens control group found`);
+                return;
+            }
+            const tokenControls = controls.tokens.tools;
+            if (!tokenControls) return;
+            if(!tokenControls["spell-creator"]){
+                tokenControls["spell-creator"] = {
+                    name: "spell-creator",
+                    title: "Open Spell Creator",
+                    icon: "fas fa-magic",
+                    onClick: () => new SpellCreatorApp().render(true),
+                    button: true
+                };
+                console.log(`${MODULE_TITLE} | Added spell creator button to scene controls`);
+            }
+
+        });
         console.log(`${MODULE_TITLE} | Initialized control hooks`);
-    }
-
-    static _onGetSceneControlButtons(controls, b, c) {
-        console.log(`${MODULE_TITLE} | Scene control buttons hook triggered`);
-        this.instance._addSceneControls(controls);
-    }
-
-    static _onRenderTokenHUD(app, html, data) {
-        console.log(`${MODULE_TITLE} | Token HUD render hook triggered`);
-        this.instance._addTokenHUDControls(app, html);
-    }
-
-    _addSceneControls(controls) {
-        if (!controls.tokens) {
-            console.warn(`${MODULE_TITLE} | No tokens control group found`);
-            return;
-        }
-
-        if (!controls.tokens.tools.some(t => t.name === "spell-creator")) {
-            controls.tokens.tools.push({
-                name: "spell-creator",
-                title: "Open Spell Creator",
-                icon: "fas fa-magic",
-                onClick: () => new SpellCreatorApp().render(true),
-                button: true
-            });
-            console.log(`${MODULE_TITLE} | Added spell creator button to scene controls`);
-        }
-    }
-
-    _addTokenHUDControls(app, html) {
-        const button = document.createElement("div");
-        button.classList.add("control-icon");
-        button.innerHTML = '<i class="fas fa-magic"></i>';
-        button.title = "Open Spell Creator";
-        html.querySelector(".col.left").prepend(button);
-        button.onclick = () => new SpellCreatorApp().render(true);
-        console.log(`${MODULE_TITLE} | Added spell creator button to token HUD`);
-    }
+    };
 }
 
 console.log(`${MODULE_TITLE} | Initializing`);
 
+SpellCreatorControls.setControlHooks();
 /**
  * Init hook.
  */
-Hooks.once('init', async () => {
+Hooks.on('init', () => {
   console.log(`${MODULE_TITLE} | Initializing Custom Spells 5e Module`);
+});
 
+Hooks.on("ready", () => {
   // Register module settings
   // e.g., game.settings.register(MODULE_ID, 'someSetting', { ... });
-
-  // Preload Handlebars templates
-  // await preloadHandlebarsTemplates();
 });
 
-/**
- * Ready hook.
- */
-Hooks.once('ready', async () => {
-  console.log(`${MODULE_TITLE} | Custom Spells 5e Module Ready`);
-  SpellCreatorControls.init();
-});
-
-/**
- * Setup hook.
- */
-Hooks.once('setup', async () => {
-    console.log(`${MODULE_TITLE} | Custom Spells 5e Module Setup`);
-    // Perform any setup actions
-});
-
-
-// Add other hooks and functions as needed, for example:
-// Hooks.on('renderActorSheet', (app, html, data) => { ... });
-
-/**
- * Preloads Handlebars templates.
- * @returns {Promise<void>}
- */
-async function preloadHandlebarsTemplates() {
-  const templatePaths = [
-    `modules/${MODULE_ID}/templates/spell-creator.hbs`,
-    // `modules/${MODULE_ID}/templates/gm-review.hbs`,
-  ];
-  return loadTemplates(templatePaths); // loadTemplates is a Foundry VTT utility
-}
-
-// Example of a utility function within the module
-// function getSpellData() { ... }
-
-// Make sure to export any classes or functions that need to be accessible globally if necessary
-// Make sure to export any classes or functions that need to be accessible globally if necessary
-window.CustomSpellsModule = {
-  SpellCreatorApp,
-  SpellCalculator
-  // someFunction,
-  // SomeClass
-};
-
-// Simple way to open the app for testing (e.g., via macro)
-// Hooks.on("renderPlayerList", (playerList, html, data) => {
-//     const button = $(`<button style="position:absolute; bottom: 50px; left:10px;" title="Open Spell Creator"><i class="fas fa-magic"></i> Spell Creator</button>`);
-//     button.on('click', () => {
-//         new SpellCreatorApp().render(true);
-//     });
-//     html.append(button);
-// });
