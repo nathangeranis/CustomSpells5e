@@ -454,7 +454,7 @@ Hooks.once('ready', async () => {
 
   // Register spell creator button in token controls
   Hooks.on('getSceneControlButtons', (controls) => {
-    const tokenControls = controls.find(c => c.name === "token");
+    const tokenControls = controls.find(c => c.name === "tokens");
     if (tokenControls) {
         tokenControls.tools.push({
             name: "spell-creator",
