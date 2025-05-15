@@ -463,9 +463,9 @@ class SpellCreatorApp extends FormApplication {
         this.element.find('.wizard-steps .step').removeClass('active');
         this.element.find(`.wizard-steps .step[data-step="${step}"]`).addClass('active');
         
-        // Show/hide content sections
-        this.element.find('.wizard-content > div').addClass('hidden');
-        this.element.find(`.wizard-content .${step}`).removeClass('hidden').addClass('active');
+        // Show active tab content
+        this.element.find('.wizard-content > div').removeClass('active');
+        this.element.find(`.wizard-content .${step}`).addClass('active');
         
         // Update navigation buttons
         const steps = ['basic', 'components', 'range', 'effects', 'casting', 'review'];
@@ -480,7 +480,7 @@ class SpellCreatorApp extends FormApplication {
         // Basic validation for current step
         switch(this.currentStep) {
             case 'basic':
-                return !!this.spellData.spellName && !!this.spellData.spellLevel;
+                return !!this.spellData.spellName && this.spellData.spellLevel !== undefined && this.spellData.spellLevel >= 0;
             case 'components':
                 return this.spellData.components.verbal || 
                        this.spellData.components.somatic || 
@@ -495,8 +495,8 @@ class SpellCreatorApp extends FormApplication {
         const form = event.currentTarget.closest('form');
         const formData = new foundry.applications.ux.FormDataExtended(form).object;
         this._updateObject(event, formData);
-        const step = event.currentTarget.dataset.step;
-        this._setActiveStep(step);
+        // Preserve current tab after update
+        this._setActiveStep(this.currentStep);
     }
     
     recalculatePoints() {
