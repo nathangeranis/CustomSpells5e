@@ -400,6 +400,8 @@ class SpellCreatorApp extends FormApplication {
         const expandedData = foundry.utils.expandObject(formData);
         foundry.utils.mergeObject(this.spellData, expandedData);
         this.spellData.spellName = expandedData.spellName;
+        this.spellData.spellName = expandedData.spellLevel;
+
         // Special handling for checkboxes that might not be present in formData if unchecked
         this.spellData.components.verbal = expandedData.components?.verbal || false;
         this.spellData.components.somatic = expandedData.components?.somatic || false;
