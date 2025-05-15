@@ -304,7 +304,7 @@ class SpellCreatorApp extends FormApplication {
         return {
             spellName: "My Custom Spell",
             schoolOfMagic: "necromancy",
-            spellLevel: 3,
+            spellLevel: 0,
             availableClasses: { cleric: true }, // Example
             components: { verbal: true, somatic: false, material: false },
             materialComponentValue: "3000gp",
@@ -316,15 +316,15 @@ class SpellCreatorApp extends FormApplication {
             effectType: "Damage", // Main type of effect
             targetStyle: "Area of Effect", // For damage/healing, matches "Target Type" in CSV
             damageTypes: ["Fire", "Radiant"], // Example
-            numberOfDice: 6,
-            dieSize: "d10",
+            numberOfDice: 1,
+            dieSize: "d6",
             hasStatusEffects: false,
             selectedStatusEffects: [],
-            statusDuration: "1 minute",
+            statusDuration: "Instant",
             castTime: "Action",
             concentrationRequired: false,
             isRitual: false,
-            savingThrowRequired: true,
+            savingThrowRequired: false,
             primarySaveType: "Constitution Save",
             additionalSaveRequired: false,
             secondarySaveType: "Constitution Save",
@@ -399,7 +399,7 @@ class SpellCreatorApp extends FormApplication {
         // We need to merge it into this.spellData carefully
         const expandedData = foundry.utils.expandObject(formData);
         foundry.utils.mergeObject(this.spellData, expandedData);
-
+        this.spellData.spellName = expandedData.spellName;
         // Special handling for checkboxes that might not be present in formData if unchecked
         this.spellData.components.verbal = expandedData.components?.verbal || false;
         this.spellData.components.somatic = expandedData.components?.somatic || false;
@@ -491,7 +491,7 @@ class SpellCreatorApp extends FormApplication {
     _onFormChange(event) {
         // When any form field changes, gather all data and recalculate
         const form = event.currentTarget.closest('form');
-        const formData = new FormDataExtended(form).object;
+        const formData = new foundry.applications.ux.FormDataExtended(form).object;
         this._updateObject(event, formData);
     }
     
