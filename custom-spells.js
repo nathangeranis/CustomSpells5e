@@ -493,6 +493,8 @@ class SpellCreatorApp extends FormApplication {
         const form = event.currentTarget.closest('form');
         const formData = new foundry.applications.ux.FormDataExtended(form).object;
         this._updateObject(event, formData);
+        const step = event.currentTarget.dataset.step;
+        this._setActiveStep(step);
     }
     
     recalculatePoints() {
