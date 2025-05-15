@@ -463,7 +463,7 @@ class SpellCreatorApp extends FormApplication {
         
         // Show/hide content sections
         this.element.find('.wizard-content > div').addClass('hidden');
-        this.element.find(`.wizard-content .${step}`).removeClass('hidden');
+        this.element.find(`.wizard-content .${step}`).removeClass('hidden').addClass('active');
         
         // Update navigation buttons
         const steps = ['basic', 'components', 'range', 'effects', 'casting', 'review'];

@@ -20,6 +20,7 @@
             <section class="wizard-content">
         <!-- Basic Information Tab -->
         <div class="tab basic" data-group="primary" data-tab="basic">
+            <h3>Basic Information</h3>
             <div class="form-group">
                 <label for="spellName">Spell Name:</label>
                 <input type="text" id="spellName" name="spellName" value="{{spell.name}}">
@@ -49,6 +50,7 @@
 
         <!-- Components Tab -->
         <div class="tab components" data-group="primary" data-tab="components">
+            <h3>Components</h3>
             <div class="form-group">
                 <label>Select Components:</label>
                 <input type="checkbox" id="compVerbal" name="components.verbal" {{checked spell.components.verbal}}>
@@ -70,6 +72,7 @@
 
         <!-- Range & Targeting Tab -->
         <div class="tab range" data-group="primary" data-tab="range">
+            <h3>Range and Targeting</h3>
             <div class="form-group">
                 <label for="rangeName">Range:</label>
                 <select id="rangeName" name="rangeName">
@@ -92,6 +95,7 @@
 
         <!-- Effects Tab -->
         <div class="tab effects" data-group="primary" data-tab="effects">
+            <h3>Effects</h3>
             <div class="form-group">
                 <label for="effectType">Effect Type:</label> <!-- e.g., Damage, Healing, Utility, Control -->
                 <input type="text" id="effectType" name="effectType" value="{{spell.effectType}}">
@@ -126,6 +130,7 @@
 
         <!-- Status Effects Tab -->
         <div class="tab status" data-group="primary" data-tab="status">
+            <h3>Status Effects</h3>
             <div class="form-group">
                 <input type="checkbox" id="hasStatusEffects" name="hasStatusEffects" {{checked spell.hasStatusEffects}}>
                 <label for="hasStatusEffects">Add Status Effects?</label>
@@ -149,6 +154,7 @@
 
         <!-- Casting Tab -->
         <div class="tab casting" data-group="primary" data-tab="casting">
+            <h3>Casting</h3>
             <div class="form-group">
                 <label for="castTime">Cast Time:</label>
                 <select id="castTime" name="castTime">
@@ -179,6 +185,7 @@
 
         <!-- Description Tab -->
         <div class="tab description" data-group="primary" data-tab="description">
+            <h3>Description</h3>
             <div class="form-group">
                 <label for="specialFeaturesDescription">Special Features Description:</label>
                 <textarea id="specialFeaturesDescription" name="specialFeaturesDescription" rows="4">{{spell.specialFeaturesDescription}}</textarea>
