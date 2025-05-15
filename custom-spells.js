@@ -470,8 +470,8 @@ class SpellCreatorApp extends FormApplication {
         const currentIndex = steps.indexOf(step);
         
         this.element.find('[data-action="prev"]').toggleClass('hidden', currentIndex === 0);
-        this.element.find('[data-action="next"]').toggleClass('hidden', currentIndex === steps.length - 1);
-        this.element.find('[data-action="submit"]').toggleClass('hidden', currentIndex !== steps.length - 1);
+        this.element.find('[data-action="next"]').toggleClass('hidden', currentIndex === steps.length - 1).toggleClass('active');
+        this.element.find('[data-action="submit"]').toggleClass('hidden', currentIndex !== steps.length - 1).toggleClass('active');
     }
 
     _validateCurrentStep() {
